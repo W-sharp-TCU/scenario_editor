@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:scenario_editor/ShowScenario.dart';
 
 import 'ProviderData.dart';
 import 'RegisterInfo.dart';
+import 'ShowScenario.dart';
 
 void main() {
   runApp(
@@ -40,10 +42,11 @@ class TopPage extends StatelessWidget {
         title: const Text("scenario_editor"),
       ),
       body: Center(
-        child: Column(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const<Widget>[
             RegisterInfo(),
+            ShowScenario(),
           ],
         ),
       ),

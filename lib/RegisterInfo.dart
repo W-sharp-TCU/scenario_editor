@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:scenario_editor/ProviderData.dart';
+import 'ProviderData.dart';
 
 
 class RegisterInfo extends StatelessWidget {
@@ -15,6 +15,7 @@ class RegisterInfo extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          RegisterCode(),
           RegisterName(),
           RegisterText(),
           RegisterType(),
@@ -29,6 +30,42 @@ class RegisterInfo extends StatelessWidget {
       ),
     );
   }
+}
+
+
+class RegisterCode extends StatelessWidget {
+  const RegisterCode({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final ProviderData providerData = Provider.of<ProviderData>(context);
+    var _textEditingController = new TextEditingController(text: providerData.code.toString());
+    _textEditingController.selection = TextSelection.fromPosition(
+      TextPosition(offset: _textEditingController.text.length),
+    );
+
+    return Container(
+      child: Row(
+        children: <Widget>[
+          const Text("code"),
+          const SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: TextField(
+              controller: _textEditingController,
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
+              onChanged: (newvalue) {
+                  providerData.setCode(newvalue.toString());
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 }
 
 
@@ -81,6 +118,10 @@ class RegisterText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProviderData providerData = Provider.of<ProviderData>(context);
+    var _textEditingController = new TextEditingController(text: providerData.text);
+    _textEditingController.selection = TextSelection.fromPosition(
+      TextPosition(offset: _textEditingController.text.length),
+    );
 
     return Container(
       child: Row(
@@ -91,6 +132,7 @@ class RegisterText extends StatelessWidget {
           ),
           Expanded(
             child: TextField(
+              controller: _textEditingController,
               keyboardType: TextInputType.multiline,
               maxLines: null,
               onChanged: (newvalue) {
@@ -150,6 +192,10 @@ class RegisterBGImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProviderData providerData = Provider.of<ProviderData>(context);
+    var _textEditingController = new TextEditingController(text: providerData.BGImage);
+    _textEditingController.selection = TextSelection.fromPosition(
+      TextPosition(offset: _textEditingController.text.length),
+    );
 
     return Container(
       child: Row(
@@ -160,6 +206,7 @@ class RegisterBGImage extends StatelessWidget {
           ),
           Expanded(
             child: TextField(
+              controller: _textEditingController,
               keyboardType: TextInputType.multiline,
               maxLines: 1,
               onChanged: (newvalue) {
@@ -180,6 +227,10 @@ class RegisterCharacterImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProviderData providerData = Provider.of<ProviderData>(context);
+    var _textEditingController = new TextEditingController(text: providerData.CharacterImage);
+    _textEditingController.selection = TextSelection.fromPosition(
+      TextPosition(offset: _textEditingController.text.length),
+    );
 
     return Container(
       child: Row(
@@ -190,6 +241,7 @@ class RegisterCharacterImage extends StatelessWidget {
           ),
           Expanded(
             child: TextField(
+              controller: _textEditingController,
               keyboardType: TextInputType.multiline,
               maxLines: 1,
               onChanged: (newvalue) {
@@ -210,6 +262,10 @@ class RegisterBGM extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProviderData providerData = Provider.of<ProviderData>(context);
+    var _textEditingController = new TextEditingController(text: providerData.BGM);
+    _textEditingController.selection = TextSelection.fromPosition(
+      TextPosition(offset: _textEditingController.text.length),
+    );
 
     return Container(
       child: Row(
@@ -220,6 +276,7 @@ class RegisterBGM extends StatelessWidget {
           ),
           Expanded(
             child: TextField(
+              controller: _textEditingController,
               keyboardType: TextInputType.multiline,
               maxLines: 1,
               onChanged: (newvalue) {
