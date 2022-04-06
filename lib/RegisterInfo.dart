@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'ProviderData.dart';
+import 'RegisterGotoAndOptionWidget.dart';
 
 
 class RegisterInfo extends StatelessWidget {
@@ -10,22 +11,102 @@ class RegisterInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500,
-      width: 500,
+      height: 1000,
+      width: 800,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          RegisterCode(),
-          RegisterName(),
-          RegisterText(),
-          RegisterType(),
-          RegisterBGImage(),
-          RegisterCharacterImage(),
-          RegisterBGM(),
+          UpperButtons(),
           const SizedBox(
             height: 30,
           ),
-          Buttons(),
+          SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                RegisterEventCode(),
+                RegisterCode(),
+                RegisterName(),
+                RegisterText(),
+                RegisterType(),
+                RegisterBGImage(),
+                RegisterCharacterImage(),
+                RegisterBGM(),
+                RegisterOptionAndGoto(),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          UnderButtons(),
+        ],
+      ),
+    );
+  }
+}
+
+
+class UpperButtons extends StatelessWidget {
+  const UpperButtons({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final ProviderData providerData = Provider.of<ProviderData>(context);
+
+    return Container(
+      child: Row(
+        children: <Widget>[
+          ElevatedButton(
+            child: const Text("load"),
+            onPressed: () {
+              providerData.loadFile();
+            }
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          ElevatedButton(
+            child: const Text("save"),
+            onPressed: () {
+              providerData.saveFile();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+class RegisterEventCode extends StatelessWidget {
+  const RegisterEventCode({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final ProviderData providerData = Provider.of<ProviderData>(context);
+    var _textEditingController = new TextEditingController(text: providerData.eventcode.toString());
+    _textEditingController.selection = TextSelection.fromPosition(
+      TextPosition(offset: _textEditingController.text.length),
+    );
+
+    return Container(
+      child: Row(
+        children: <Widget>[
+          const Text("eventcode"),
+          const SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: TextField(
+              controller: _textEditingController,
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
+              onChanged: (newvalue) {
+                providerData.setCode(newvalue.toString());
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -57,7 +138,7 @@ class RegisterCode extends StatelessWidget {
               keyboardType: TextInputType.multiline,
               maxLines: null,
               onChanged: (newvalue) {
-                  providerData.setCode(newvalue.toString());
+                providerData.setCode(newvalue.toString());
               },
             ),
           ),
@@ -65,7 +146,6 @@ class RegisterCode extends StatelessWidget {
       ),
     );
   }
-
 }
 
 
@@ -291,8 +371,38 @@ class RegisterBGM extends StatelessWidget {
 }
 
 
-class Buttons extends StatelessWidget {
-  const Buttons({Key? key}) : super(key: key);
+class RegisterOptionAndGoto extends StatelessWidget {
+  const RegisterOptionAndGoto({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final ProviderData providerData = Provider.of<ProviderData>(context);
+
+    return Row(
+      children: <Widget>[
+        const Text("goto and option"),
+        const SizedBox(
+          width: 10,
+        ),
+        ElevatedButton(
+          child: const Text("add"),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => RegisterGotoAndOptionWidget()
+              )
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+
+class UnderButtons extends StatelessWidget {
+  const UnderButtons({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
