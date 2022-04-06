@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:file_selector/file_selector.dart';
 import 'dart:convert';
 
-import 'package:scenario_editor/ShowScenario.dart';
+import 'package:scenario_editor/UI/ShowScenario.dart';
 
 class ProviderData extends ChangeNotifier {
   int eventcode = -1;

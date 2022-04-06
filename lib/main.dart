@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:scenario_editor/ShowScenario.dart';
+import 'package:scenario_editor/UI/ShowScenario.dart';
 
-import 'ProviderData.dart';
-import 'RegisterInfo.dart';
-import 'ShowScenario.dart';
+import 'UI/ProviderData.dart';
+import 'UI/RegisterInfo.dart';
+import 'UI/ShowScenario.dart';
 
 void main() {
   runApp(
