@@ -1,5 +1,4 @@
 import 'package:scenario_editor/ContextData.dart';
-import 'package:scenario_editor/interface_ScenarioJson.dart';
 
 class DataManager {
   List<ContextData> dataList = [];
