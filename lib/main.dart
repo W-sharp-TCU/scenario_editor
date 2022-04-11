@@ -44,7 +44,7 @@ class TopPage extends StatelessWidget {
       body: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const<Widget>[
+          children: const <Widget>[
             RegisterInfo(),
             ShowScenario(),
           ],

@@ -2,8 +2,7 @@ import 'dart:convert';
 
 class jsonToMap{
   Map<String, dynamic> _map = {};
-  String _json;
-  jsonToMap(this._json);
+  String _json = "";
 
   void decode(){
     _json.replaceAll('<br>', '\n');
@@ -15,7 +14,15 @@ class jsonToMap{
     _json.replaceAll('\n', '<br>');
   }
 
-  Map getMap(){
+  void setMap(Map<String, dynamic> newmap) {
+    _map = newmap;
+  }
+
+  void setJson(String newjson) {
+    _json = newjson;
+  }
+
+  Map<String, dynamic> getMap(){
     return _map;
   }
 

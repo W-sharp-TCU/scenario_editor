@@ -10,6 +10,8 @@ class RegisterInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ProviderData providerData = Provider.of<ProviderData>(context);
+
     return Container(
       height: 1000,
       width: 800,
@@ -20,22 +22,26 @@ class RegisterInfo extends StatelessWidget {
           const SizedBox(
             height: 30,
           ),
-          SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                RegisterEventCode(),
-                RegisterCode(),
-                RegisterName(),
-                RegisterText(),
-                RegisterType(),
-                RegisterBGImage(),
-                RegisterCharacterImage(),
-                RegisterBGM(),
-                RegisterOptionAndGoto(),
-              ],
+          /*Container(
+            height: 600,
+            width: 800,
+            child: */SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  RegisterEventCode(),
+                  RegisterCode(),
+                  RegisterType(),
+                  if (providerData.type == "Speech") RegisterName(),
+                  if (providerData.type == "Speech") RegisterText(),
+                  RegisterBGImage(),
+                  RegisterCharacterImage(),
+                  RegisterBGM(),
+                  RegisterOptionAndGoto(),
+                ],
+              ),
             ),
-          ),
+          //),
           const SizedBox(
             height: 30,
           ),
@@ -101,9 +107,9 @@ class RegisterEventCode extends StatelessWidget {
             child: TextField(
               controller: _textEditingController,
               keyboardType: TextInputType.multiline,
-              maxLines: null,
+              maxLines: 1,
               onChanged: (newvalue) {
-                providerData.setCode(newvalue.toString());
+                providerData.setEventCode(int.parse(newvalue));
               },
             ),
           ),
@@ -136,9 +142,9 @@ class RegisterCode extends StatelessWidget {
             child: TextField(
               controller: _textEditingController,
               keyboardType: TextInputType.multiline,
-              maxLines: null,
+              maxLines: 1,
               onChanged: (newvalue) {
-                providerData.setCode(newvalue.toString());
+                providerData.setCode(int.parse(newvalue));
               },
             ),
           ),
@@ -154,9 +160,12 @@ class RegisterName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> nameList = ["", "name1", "name2", "name3", "name4"];
     final ProviderData providerData = Provider.of<ProviderData>(context);
     String? value = providerData.name;
+    var _textEditingController = new TextEditingController(text: providerData.newname);
+    _textEditingController.selection = TextSelection.fromPosition(
+      TextPosition(offset: _textEditingController.text.length),
+    );
 
     return Container(
       child: Row(
@@ -171,7 +180,7 @@ class RegisterName extends StatelessWidget {
               height: 2,
               color: Colors.black12,
             ),
-            items: nameList.map<DropdownMenuItem<String>>((String value) {
+            items: providerData.nameList.map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
                 child: Text(value),
@@ -181,10 +190,19 @@ class RegisterName extends StatelessWidget {
               providerData.setName(newvalue.toString());
             }
           ),
-          /* subname's textfield */
-          /*
-          TextField(),
-          */
+          const SizedBox(
+            width: 10,
+          ),
+          if (providerData.name == "")  Expanded(
+            child: TextField(
+              controller: _textEditingController,
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
+              onChanged: (newvalue) {
+                providerData.setNewName(newvalue.toString());
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -232,7 +250,7 @@ class RegisterType extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> typeList = ["Speech", "Question", "StatusUP"];
+    List<String> typeList = ["Speech", "Question", "StatusUP"];
     final ProviderData providerData = Provider.of<ProviderData>(context);
     String? value = providerData.type;
 
@@ -415,6 +433,15 @@ class UnderButtons extends StatelessWidget {
             child: const Text("Register"),
             onPressed: (){
               providerData.register();
+            },
+          ),
+          SizedBox(
+            width: 50,
+          ),
+          ElevatedButton(
+            child: const Text("Clear"),
+            onPressed: (){
+              providerData.clear();
             },
           ),
         ],

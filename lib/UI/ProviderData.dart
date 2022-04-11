@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:file_selector/file_selector.dart';
@@ -7,37 +8,36 @@ import 'package:file_selector/file_selector.dart';
 import 'dart:convert';
 
 import 'package:scenario_editor/UI/ShowScenario.dart';
+import 'package:scenario_editor/json.dart';
+
 
 class ProviderData extends ChangeNotifier {
   int eventcode = -1;
-  int code = -1;
-  String? name = null;
-  String text = "";
+  int code = 0;
   String? type = null;
+  String? name = null;
+  String? newname = null;
+  List<String> nameList = ["", "ののの", "def1", "def2", "def3"];
+  String? text = null;
   String? BGImage = null;
   String? CharacterImage = null;
   String? BGM = null;
   List<int> goto = [];
   List<String> option = [];
   Map<String, dynamic> scenarioList =
-    {
-      "eventcode": 10,
-      "context": [
-        {
-          "code": 0,
-          "name": "name1",
-          "text": "test text 1",
-        },
-        {
-          "code": 1,
-          "name": "name2",
-          "text": "test text 2",
-        },
-      ],
-    };
+  {
+    "eventcode": -1,
+    "context": [],
+  };
+  Map<String, dynamic> scenarioMap =
+  {
+    "eventcode": -1,
+    "context": [],
+  };
 
 
   void loadFile() async{
+    allClear();
     final XTypeGroup typeGroup = XTypeGroup(
       label: "json",
       extensions: ["json"],
@@ -49,8 +49,12 @@ class ProviderData extends ChangeNotifier {
       return;
     }
     final String fileContent = await file.readAsString();
-    print(fileContent);
-    /* string で受け取るから jsonにする関数が必要 */
+    jsonToMap jsontomap = new jsonToMap();
+    jsontomap.setJson(fileContent);
+    jsontomap.decode();
+    scenarioMap = jsontomap.getMap();
+    scenarioList = scenarioMap;
+    notifyListeners();
   }
 
   void saveFile() async{
@@ -66,31 +70,41 @@ class ProviderData extends ChangeNotifier {
     if (path == null) {
       return;
     } else {
-      final dynamic data = Uint8List.fromList(jsonEncode(scenarioList).codeUnits);
+      scenarioMap = scenarioList;
+      jsonToMap jsontomap = new jsonToMap();
+      jsontomap.setMap(scenarioMap);
+      jsontomap.encode();
+      final dynamic data = Uint8List.fromList(jsontomap.getJson().codeUnits);
       final mimeType = "application/json";
       final file = XFile.fromData(data, mimeType: mimeType);
       await file.saveTo(path);
     }
+    notifyListeners();
   }
 
   void getScenario(codeNum) {
-    print(codeNum);
-    /* get each field value methods */
-    /*
-
-    */
     setEventCode(scenarioList["eventcode"]);
-    setName(scenarioList["context"][codeNum]["name"]);
+    setCode(scenarioList["context"][codeNum]["code"]);
+    if (scenarioList["context"][codeNum]["type"] == "") {
+      type = null;
+    } else {
+      setType(scenarioList["context"][codeNum]["type"]);
+    }
+    if (nameList.contains(scenarioList["context"][codeNum]["name"])) {
+    } else {
+      nameList.add(scenarioList["context"][codeNum]["name"]) ;
+    }
     setText(scenarioList["context"][codeNum]["text"]);
-    /*
-    setType(scenarioList["context"][codeNum]["type"]);
     setBGImage(scenarioList["context"][codeNum]["BGImage"]);
     setCharacterImage(scenarioList["context"][codeNum]["CharacterImage"]);
     setBGM(scenarioList["context"][codeNum]["BGM"]);
-    goto = scenarioList["context"][codeNum]["goto"];
-    option = scenarioList["context"][codeNum]["option"];
-    */
+    if (scenarioList["context"][codeNum]["option"] == []) {
+      goto = scenarioList["context"][codeNum]["goto"].cast<int>();
+      option = scenarioList["context"][codeNum]["option"].cast<String>();
+    }
+    notifyListeners();
   }
+
 
   void setEventCode(newEventCode) {
     eventcode = newEventCode;
@@ -99,55 +113,51 @@ class ProviderData extends ChangeNotifier {
 
   void setCode(newcode) {
     code = int.parse(newcode);
-    print(code);
     notifyListeners();
   }
 
   void setName(newname) {
     name = newname;
-    print(name);
+    notifyListeners();
+  }
+
+  void setNewName(newName) {
+    newname = newName;
     notifyListeners();
   }
 
   void setText(newtext) {
     text = newtext;
-    print(text);
     notifyListeners();
   }
 
   void setType(newtype) {
     type = newtype;
-    print(type);
     notifyListeners();
   }
 
   void setBGImage(newBGImage) {
     BGImage = newBGImage;
-    print(newBGImage);
     notifyListeners();
   }
 
   void setCharacterImage(newCharacterImage) {
     CharacterImage = newCharacterImage;
-    print(CharacterImage);
     notifyListeners();
   }
 
   void setBGM(newBGM) {
     BGM = newBGM;
-    print(BGM);
     notifyListeners();
   }
 
   void setGoto(newGoto, i) {
     goto[i] = int.parse(newGoto);
-    print(goto);
     notifyListeners();
   }
 
   void setOption(newOption, i) {
     option[i] = newOption;
-    print(option);
     notifyListeners();
   }
 
@@ -158,30 +168,118 @@ class ProviderData extends ChangeNotifier {
   }
 
   void register() {
-    for (int i = 0; i < goto.length; i++) {
-      if (option == "") {
-        goto.remove(i);
-        goto.remove(i);
+    /* 各provider値をmap型にする関数 */
+    Map<String, dynamic> tmpmap = {};
+    if (code == null) {
+      tmpmap["code"] = "";
+    } else {
+      tmpmap["code"] = code.toString();
+    }
+    if (type == null) {
+      tmpmap["type"] = "";
+    } else {
+      tmpmap["type"] = type.toString();
+    }
+    if (name == null) {
+      tmpmap["name"] = "";
+    } else {
+      if (name == ""){
+        tmpmap["name"] = newname.toString();
+      } else {
+        tmpmap["name"] = name.toString();
       }
     }
-    /* 各provider値をmap型にする関数 */
+    if (text == null) {
+      tmpmap["text"] = "";
+    } else {
+      tmpmap["text"] = text.toString();
+    }
+    if (BGImage == null) {
+      tmpmap["BGImage"] = "";
+    } else {
+      tmpmap["BGImage"] = BGImage.toString();
+    }
+    if (CharacterImage == null) {
+      tmpmap["Character"] = "";
+    } else {
+      tmpmap["Character"] = CharacterImage.toString();
+    }
+    if (BGM == null) {
+      tmpmap["BGM"] = "";
+    } else {
+      tmpmap["BGM"] = BGM.toString();
+    }
+    if (goto == []) {
+      tmpmap["goto"] = null;
+      tmpmap["option"] = null;
+    } else {
+      removeGoto(goto);
+      tmpmap["goto"] = goto.toString();
+      tmpmap["option"] = option.toString();
+    }
     /*
+    /* tmpmapを追加 */
+    for (int i = 0; i < scenarioList["context"].length; i++) {
+      if (scenarioList["context"][i]["goto"].containsValue(code) == true &&
+          scenarioList["context"][i]["goto"] != []) {
+        int index = scenarioList["context"][i]["goto"].indexOf(code);
+        scenarioList["context"][i]["goto"][index] = code;
+      }
+    }
+*/
+    scenarioList["context"].insert(code, tmpmap);
 
-    */
     clear();
     notifyListeners();
   }
 
+  List<int> removeGoto (List<int> oldgoto) {
+    for (int i = 0; i < oldgoto.length; i++) {
+      if (goto[i] == ""){
+        goto.removeAt(i);
+        option.removeAt(i);
+        return removeGoto(goto);
+      }
+    }
+    return goto;
+  }
+
   void clear() {
-    eventcode = -1;
-    code = -1;
+    code = scenarioList["context"].length;
     name = null;
-    text = "";
+    newname = null;
+    text = null;
     type = null;
     BGImage = null;
     CharacterImage = null;
     BGM = null;
     option = [];
     goto = [];
+    notifyListeners();
+  }
+
+  void allClear() {
+    eventcode = -1;
+    code = 0;
+    name = null;
+    newname = null;
+    nameList = ["", "ののの", "def1", "def2", "def3"];
+    text = null;
+    type = null;
+    BGImage = null;
+    CharacterImage = null;
+    BGM = null;
+    option = [];
+    goto = [];
+   scenarioList =
+    {
+      "eventcode": -1,
+      "context": [],
+    };
+    scenarioMap =
+    {
+      "eventcode": -1,
+      "context": [],
+    };
   }
 }

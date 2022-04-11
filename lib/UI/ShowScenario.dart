@@ -10,7 +10,6 @@ class ShowScenario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProviderData providerData = Provider.of<ProviderData>(context);
-    int scenarioDataLength = providerData.scenarioList["context"].length;
 
     return Container(
       child: Column(
@@ -22,7 +21,7 @@ class ShowScenario extends StatelessWidget {
               crossAxisCount: 1,
               childAspectRatio: 4,
               children: [
-                for (int i = 0; i < scenarioDataLength; i++) Scenario(codeNum: i),
+                for (int i = 0; i < providerData.scenarioList["context"].length; i++) Scenario(codeNum: i),
               ],
             ),
           )
@@ -48,12 +47,25 @@ class Scenario extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(providerData.scenarioList["context"][codeNum]["name"]),
+              Text("code: " + providerData.scenarioList["context"][codeNum]["code"].toString()),
               const SizedBox(
                 width: 10,
               ),
-              Text(providerData.scenarioList["context"][codeNum]["text"]),
+              Text("type: " + providerData.scenarioList["context"][codeNum]["type"]),
             ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text("name: " + providerData.scenarioList["context"][codeNum]["name"]),
+              const SizedBox(
+                width: 10,
+              ),
+              Text("text: " + providerData.scenarioList["context"][codeNum]["text"]),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

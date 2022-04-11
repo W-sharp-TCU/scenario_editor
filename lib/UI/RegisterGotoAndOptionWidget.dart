@@ -15,18 +15,24 @@ class RegisterGotoAndOptionWidget extends StatelessWidget {
       backgroundColor: Colors.grey,
       body: Center(
         child: Container(
-          height: 1200,
-          width: 1000,
+          height: 1000,
+          width: 800,
           child: Center(
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
                   for (int i = 0; i < providerData.goto.length; i++) ContainerWidget(i: i),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   ElevatedButton(
                     child: const Text("add"),
                     onPressed: () {
                       providerData.add();
                     },
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                   ElevatedButton(
                     child: const Text("back to home"),
@@ -64,6 +70,10 @@ class ContainerWidget extends StatelessWidget {
     return Container(
       child: Row(
         children: <Widget>[
+          const Text("goto"),
+          const SizedBox(
+            width: 10,
+          ),
           Expanded(
             child: TextField(
               controller: _textEditingController1,
@@ -74,6 +84,10 @@ class ContainerWidget extends StatelessWidget {
               },
             ),
           ),
+          const SizedBox(
+            width: 10,
+          ),
+          const Text("option"),
           const SizedBox(
             width: 10,
           ),
