@@ -209,24 +209,25 @@ class ProviderData extends ChangeNotifier {
     } else {
       tmpmap["BGM"] = BGM.toString();
     }
-    if (goto == []) {
-      tmpmap["goto"] = null;
-      tmpmap["option"] = null;
+    if (goto.isEmpty) {
+      tmpmap["goto"] = [code + 1];
+      tmpmap["option"] = [];
     } else {
       removeGoto(goto);
       tmpmap["goto"] = goto.toString();
       tmpmap["option"] = option.toString();
     }
-    /*
+
+/*
     /* tmpmapを追加 */
     for (int i = 0; i < scenarioList["context"].length; i++) {
-      if (scenarioList["context"][i]["goto"].containsValue(code) == true &&
-          scenarioList["context"][i]["goto"] != []) {
+      if (scenarioList["context"][i]["goto"].containsValue(code) == true) {
         int index = scenarioList["context"][i]["goto"].indexOf(code);
         scenarioList["context"][i]["goto"][index] = code;
       }
     }
 */
+
     scenarioList["context"].insert(code, tmpmap);
 
     clear();
