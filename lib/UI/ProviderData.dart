@@ -58,6 +58,7 @@ class ProviderData extends ChangeNotifier {
   }
 
   void saveFile() async{
+    scenarioList["eventcode"] = eventcode;
     String? path = await getSavePath(
       acceptedTypeGroups: [
         XTypeGroup(
@@ -98,10 +99,11 @@ class ProviderData extends ChangeNotifier {
     setBGImage(scenarioList["context"][codeNum]["BGImage"]);
     setCharacterImage(scenarioList["context"][codeNum]["CharacterImage"]);
     setBGM(scenarioList["context"][codeNum]["BGM"]);
-    if (scenarioList["context"][codeNum]["option"] == []) {
-      goto = scenarioList["context"][codeNum]["goto"].cast<int>();
-      option = scenarioList["context"][codeNum]["option"].cast<String>();
-    }
+    //if (scenarioList["context"][codeNum]["option"] == []) {
+      //goto = scenarioList["context"][codeNum]["goto"].cast<int>();
+      //option = scenarioList["context"][codeNum]["option"].cast<String>();
+    //}
+    goto = scenarioList["context"][codeNum]["goto"].split(",").map<int>((String item) => int.parse(item)).toList();
     notifyListeners();
   }
 
@@ -214,19 +216,24 @@ class ProviderData extends ChangeNotifier {
       tmpmap["option"] = [];
     } else {
       removeGoto(goto);
-      tmpmap["goto"] = goto.toString();
-      tmpmap["option"] = option.toString();
+      tmpmap["goto"] = goto;
+      tmpmap["option"] = option;
     }
 
-/*
     /* tmpmapを追加 */
     for (int i = 0; i < scenarioList["context"].length; i++) {
-      if (scenarioList["context"][i]["goto"].containsValue(code) == true) {
+      /*
+      if (scenarioList["context"][i]["goto"].containsValue(code)) {
         int index = scenarioList["context"][i]["goto"].indexOf(code);
         scenarioList["context"][i]["goto"][index] = code;
       }
+      */
+      for (int j = 0; j < scenarioList["context"][i]["goto"].lenght; j++) {
+        if (scenarioList["context"][i]["goto"][j] == code) {
+
+        }
+      }
     }
-*/
 
     scenarioList["context"].insert(code, tmpmap);
 
@@ -272,7 +279,7 @@ class ProviderData extends ChangeNotifier {
     BGM = null;
     option = [];
     goto = [];
-   scenarioList =
+    scenarioList =
     {
       "eventcode": -1,
       "context": [],
