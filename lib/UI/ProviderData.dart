@@ -99,11 +99,15 @@ class ProviderData extends ChangeNotifier {
     setBGImage(scenarioList["context"][codeNum]["BGImage"]);
     setCharacterImage(scenarioList["context"][codeNum]["CharacterImage"]);
     setBGM(scenarioList["context"][codeNum]["BGM"]);
-    //if (scenarioList["context"][codeNum]["option"] == []) {
-      //goto = scenarioList["context"][codeNum]["goto"].cast<int>();
-      //option = scenarioList["context"][codeNum]["option"].cast<String>();
-    //}
-    goto = scenarioList["context"][codeNum]["goto"].split(",").map<int>((String item) => int.parse(item)).toList();
+
+    String _tmpgoto = scenarioList["context"][codeNum]["goto"].replaceFirst("[","");
+    _tmpgoto = _tmpgoto.replaceFirst("]","");
+    goto = _tmpgoto.split(",").map<int>((String item) => int.parse(item)).toList();
+
+    String _tmpoption = scenarioList["context"][codeNum]["option"].replaceFirst("[","");
+    _tmpoption = _tmpoption.replaceFirst("]","");
+    option = _tmpoption.split(",").toList();
+
     notifyListeners();
   }
 
@@ -219,22 +223,6 @@ class ProviderData extends ChangeNotifier {
       tmpmap["goto"] = goto;
       tmpmap["option"] = option;
     }
-
-    /* tmpmapを追加 */
-    for (int i = 0; i < scenarioList["context"].length; i++) {
-      /*
-      if (scenarioList["context"][i]["goto"].containsValue(code)) {
-        int index = scenarioList["context"][i]["goto"].indexOf(code);
-        scenarioList["context"][i]["goto"][index] = code;
-      }
-      */
-      for (int j = 0; j < scenarioList["context"][i]["goto"].lenght; j++) {
-        if (scenarioList["context"][i]["goto"][j] == code) {
-
-        }
-      }
-    }
-
     scenarioList["context"].insert(code, tmpmap);
 
     clear();
