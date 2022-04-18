@@ -9,6 +9,7 @@ import '/Data/ProviderData.dart';
 /// Scenario widget
 class Scenario extends StatelessWidget {
   Scenario({Key? key, required this.codeNum}) : super(key: key);
+
   /// ScenarioList index
   int codeNum = -1;
 
