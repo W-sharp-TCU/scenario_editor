@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:file_selector/file_selector.dart';
 import 'dart:convert';
 
-import 'package:scenario_editor/UI/ShowScenario.dart';
-import 'package:scenario_editor/json.dart';
+import 'package:scenario_editor/UI/ShowScenarioWidget/ShowScenario.dart';
+import 'package:scenario_editor/Data/json.dart';
 
 
 class ProviderData extends ChangeNotifier {
@@ -84,6 +84,7 @@ class ProviderData extends ChangeNotifier {
   }
 
   void getScenario(codeNum) {
+    clear();
     setEventCode(scenarioList["eventcode"]);
     setCode(scenarioList["context"][codeNum]["code"]);
     if (scenarioList["context"][codeNum]["type"] == "") {
@@ -100,14 +101,16 @@ class ProviderData extends ChangeNotifier {
     setCharacterImage(scenarioList["context"][codeNum]["CharacterImage"]);
     setBGM(scenarioList["context"][codeNum]["BGM"]);
 
-    String _tmpgoto = scenarioList["context"][codeNum]["goto"].replaceFirst("[","");
-    _tmpgoto = _tmpgoto.replaceFirst("]","");
-    goto = _tmpgoto.split(",").map<int>((String item) => int.parse(item)).toList();
-
-    String _tmpoption = scenarioList["context"][codeNum]["option"].replaceFirst("[","");
-    _tmpoption = _tmpoption.replaceFirst("]","");
-    option = _tmpoption.split(",").toList();
-
+    if(scenarioList["context"][codeNum]["goto"] != null) {
+      String _tmpgoto = scenarioList["context"][codeNum]["goto"].replaceFirst("[","");
+      _tmpgoto = _tmpgoto.replaceFirst("]","");
+      goto = _tmpgoto.split(",").map<int>((String item) => int.parse(item)).toList();
+    }
+    if(scenarioList["context"][codeNum]["option"] != null) {
+      String _tmpoption = scenarioList["context"][codeNum]["option"].replaceFirst("[", "");
+      _tmpoption = _tmpoption.replaceFirst("]", "");
+      option = _tmpoption.split(",").toList();
+    }
     notifyListeners();
   }
 
@@ -174,7 +177,6 @@ class ProviderData extends ChangeNotifier {
   }
 
   void register() {
-    /* 各provider値をmap型にする関数 */
     Map<String, dynamic> tmpmap = {};
     if (code == null) {
       tmpmap["code"] = "";
@@ -225,8 +227,22 @@ class ProviderData extends ChangeNotifier {
     }
     scenarioList["context"].insert(code, tmpmap);
 
+    /// goto adjust
+    for (int i = 0; i < scenarioList["context"].length; i++) {
+      if (int.parse(scenarioList["context"][i]["code"]) != i) {
+        for (int j = 0; j < scenarioList["context"].length; j++) {
+          for (int k = 0; k < scenarioList["context"][j]["goto"].length; k++) {
+            if (scenarioList["context"][j]["goto"][k] == int.parse(scenarioList["context"][i]["code"])) {
+              scenarioList["context"][j]["goto"][k] = i + 1;
+            }
+          }
+        }
+        scenarioList["context"][i]["code"] = i;
+      }
+    }
     clear();
     notifyListeners();
+    print(scenarioList);
   }
 
   List<int> removeGoto (List<int> oldgoto) {

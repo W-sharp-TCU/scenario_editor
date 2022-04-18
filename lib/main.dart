@@ -1,20 +1,24 @@
+/// import package.
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:scenario_editor/UI/ShowScenario.dart';
 
-import 'UI/ProviderData.dart';
-import 'UI/RegisterInfo.dart';
-import 'UI/ShowScenario.dart';
+/// import file.
+import 'Data/ProviderData.dart';
+import 'UI/RegisterWidget/RegisterInfo.dart';
+import 'UI/ShowScenarioWidget/ShowScenario.dart';
 
+
+/// main method
 void main() {
   runApp(
     ScenarioEditor(),
   );
 }
 
+
+/// Material widget.
 class ScenarioEditor extends StatelessWidget {
   ScenarioEditor({Key? key}) : super(key: key);
-
   final ProviderData providerData = ProviderData();
 
   @override
@@ -33,6 +37,7 @@ class ScenarioEditor extends StatelessWidget {
 }
 
 
+/// TopPage widget.
 class TopPage extends StatelessWidget {
   const TopPage({Key? key}) : super(key: key);
 

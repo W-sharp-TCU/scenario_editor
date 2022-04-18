@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:scenario_editor/interface_ScenarioJson.dart';
+import 'package:scenario_editor/Data/interface_ScenarioJson.dart';
 
 class ContextData extends ScenarioJsonInterface {
   int _index = 0;
