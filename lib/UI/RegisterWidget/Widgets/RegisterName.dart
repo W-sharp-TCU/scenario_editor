@@ -45,7 +45,7 @@ class RegisterName extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          if (providerData.name == "")  Expanded(
+          if (providerData.name == "") Expanded(
             child: TextField(
               controller: _textEditingController,
               keyboardType: TextInputType.multiline,
