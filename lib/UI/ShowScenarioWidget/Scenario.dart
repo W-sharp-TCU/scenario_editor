@@ -16,9 +16,10 @@ class Scenario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProviderData providerData = Provider.of<ProviderData>(context);
+    final Size size = MediaQuery.of(context).size;
 
     return SizedBox(
-      height: 50,
+      height: size.height * 0.1,
       child: Column(
         children: [
           Row(

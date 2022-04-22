@@ -14,23 +14,19 @@ class ShowScenario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProviderData providerData = Provider.of<ProviderData>(context);
+    final Size size = MediaQuery.of(context).size;
 
     return Container(
-      child: Column(
-        children: [
-          Container(
-            height: 800,
-            width: 800,
-            child: GridView.count(
-              crossAxisCount: 1,
-              childAspectRatio: 4,
-              children: [
-                /// scenariodata's lenth scenario by for(){}.
-                for (int i = 0; i < providerData.scenarioList["context"].length; i++) Scenario(codeNum: i),
-              ],
-            ),
-          ),
-        ],
+      height: size.height * 0.9,
+      width: size.width * 0.4,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            /// scenariodata's lenth scenario by for(){}.
+            for (int i = 0; i < providerData.scenarioList["context"].length; i++) Scenario(codeNum: i),
+          ],
+        ),
       ),
     );
   }

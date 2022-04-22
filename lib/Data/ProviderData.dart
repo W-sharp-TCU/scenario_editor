@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:file_selector/file_selector.dart';
 import 'dart:convert';
 
 import 'package:scenario_editor/UI/ShowScenarioWidget/ShowScenario.dart';
@@ -13,7 +12,7 @@ import 'package:scenario_editor/Data/json.dart';
 
 class ProviderData extends ChangeNotifier {
   /// variable
-  int eventcode = -1;
+  int _eventcode = -1;
   int code = 0;
   String? type = null;
   String? name = null;
@@ -37,6 +36,20 @@ class ProviderData extends ChangeNotifier {
     "eventcode": -1,
     "context": [],
   };
+
+  /// getter
+  /// getter eventcode.
+  int get eventcode => _eventcode;
+
+  /// setter
+  /// setter eventcode.
+  set eventcode (int neweventcode) {
+    _eventcode = neweventcode;
+  }
+
+
+
+
 
   /// call it to restore scenariolist.
   void getScenario(codeNum) {
@@ -79,6 +92,8 @@ class ProviderData extends ChangeNotifier {
   /// set eventcode.
   void setEventCode(newEventCode) {
     eventcode = newEventCode;
+    print(eventcode is int);
+    print(eventcode.toString() + " changed.");
     notifyListeners();
   }
   /// set code.

@@ -43,6 +43,8 @@ class TopPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("scenario_editor"),
@@ -50,8 +52,11 @@ class TopPage extends StatelessWidget {
       body: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             RegisterInfo(),
+            SizedBox(
+              width: size.width * 0.05,
+            ),
             ShowScenario(),
           ],
         ),

@@ -24,16 +24,17 @@ class RegisterInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProviderData providerData = Provider.of<ProviderData>(context);
+    final Size size = MediaQuery.of(context).size;
 
     return Container(
-      height: 1000,
-      width: 800,
+      height: size.height * 0.9,
+      width: size.width * 0.4,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           UpperButtons(),
-          const SizedBox(
-            height: 30,
+          SizedBox(
+            height: size.height * 0.05,
           ),
           SingleChildScrollView(
             child: Column(
@@ -41,18 +42,23 @@ class RegisterInfo extends StatelessWidget {
               children: <Widget>[
                 RegisterEventCode(),
                 RegisterCode(),
+                /*
                 RegisterType(),
                 if (providerData.type == "Speech") RegisterName(),
                 if (providerData.type == "Speech") RegisterText(),
                 RegisterBGImage(),
                 RegisterCharacterImage(),
                 RegisterBGM(),
+                const SizedBox(
+                  height: 10,
+                ),
                 RegisterOptionAndGoto(),
+                */
               ],
             ),
           ),
-          const SizedBox(
-            height: 30,
+          SizedBox(
+            height: size.height * 0.05,
           ),
           UnderButtons(),
         ],

@@ -1,5 +1,6 @@
 /// import packages.
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 /// import files.
@@ -12,8 +13,9 @@ class RegisterEventCode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProviderData providerData = Provider.of<ProviderData>(context);
-    var _textEditingController = new TextEditingController(text: providerData.eventcode.toString());
+    var _textEditingController = new TextEditingController(
+      text: context.watch<ProviderData>().eventcode.toString(),
+    );
     _textEditingController.selection = TextSelection.fromPosition(
       TextPosition(offset: _textEditingController.text.length),
     );
@@ -28,11 +30,16 @@ class RegisterEventCode extends StatelessWidget {
           Expanded(
             child: TextField(
               controller: _textEditingController,
-              keyboardType: TextInputType.multiline,
+              keyboardType: TextInputType.number,
               maxLines: 1,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+              ],
               onChanged: (newvalue) {
                 /// set eventcode.
-                providerData.setEventCode(int.parse(newvalue));
+                if (newvalue != "") {
+                  context.watch<ProviderData>().eventcode = int.parse(newvalue);
+                }
               },
             ),
           ),
