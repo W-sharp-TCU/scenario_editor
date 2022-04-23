@@ -15,6 +15,7 @@ import 'Widgets/RegisterCharacterImage.dart';
 import 'Widgets/RegisterBGM.dart';
 import 'Widgets/RegisterOptionAndGoto.dart';
 import 'Widgets/UnderButtons.dart';
+import '../GetScreenSize.dart';
 
 
 /// RegisterInfo widget.
@@ -23,17 +24,17 @@ class RegisterInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    GetScreenSize.setSize(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width);
 
     return Container(
-      height: size.height * 0.9,
-      width: size.width * 0.4,
+      height:  GetScreenSize.screenHeight() * 0.9,
+      width:  GetScreenSize.screenWidth() * 0.4,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           UpperButtons(),
           SizedBox(
-            height: size.height * 0.05,
+            height:  GetScreenSize.screenHeight() * 0.05,
           ),
           SingleChildScrollView(
             child: Column(
@@ -55,7 +56,7 @@ class RegisterInfo extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: size.height * 0.05,
+            height:  GetScreenSize.screenHeight() * 0.05,
           ),
           UnderButtons(),
         ],

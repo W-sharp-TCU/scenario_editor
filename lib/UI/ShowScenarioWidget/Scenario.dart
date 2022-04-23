@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 /// import files.
 import '/Data/ProviderData.dart';
 import 'package:scenario_editor/Data/interface_ScenarioJson.dart';
+import '../GetScreenSize.dart';
 
 /// Scenario widget
 class Scenario extends StatelessWidget {
@@ -15,39 +16,40 @@ class Scenario extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    GetScreenSize.setSize(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width);
 
-    return SizedBox(
-      height: size.height * 0.1,
+    return Container(
+      height: GetScreenSize.screenHeight() * 0.2,
+      padding: EdgeInsets.all(10),
       child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text("code: " + context.watch<ProviderData>().scenarioList["context"][codeNum]["code"].toString()),
-              const SizedBox(
-                width: 10,
-              ),
-              if(context.watch<ProviderData>().scenarioList["context"][codeNum]["type"] == ScenarioJsonInterface.speech)
-                Text("type: Speech"),
-              if(context.watch<ProviderData>().scenarioList["context"][codeNum]["type"] == ScenarioJsonInterface.question)
-                Text("type: Question"),
-              if(context.watch<ProviderData>().scenarioList["context"][codeNum]["type"] == ScenarioJsonInterface.statusUp)
-                Text("type: StatusUP"),
-            ],
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              "code: " + context.watch<ProviderData>().scenarioList["context"][codeNum]["code"].toString(),
+            ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text("name: " + context.watch<ProviderData>().scenarioList["context"][codeNum]["name"]),
-              const SizedBox(
-                width: 10,
-              ),
-              Text("text: " + context.watch<ProviderData>().scenarioList["context"][codeNum]["text"]),
-            ],
+          if(context.watch<ProviderData>().scenarioList["context"][codeNum]["type"] == ScenarioJsonInterface.speech)
+            Expanded(
+              child: Text("type: Speech"),
+            ),
+          if(context.watch<ProviderData>().scenarioList["context"][codeNum]["type"] == ScenarioJsonInterface.question)
+            Expanded(
+                child: Text("type: Question"),
+            ),
+          if(context.watch<ProviderData>().scenarioList["context"][codeNum]["type"] == ScenarioJsonInterface.statusUp)
+            Expanded(
+                child: Text("type: StatusUP"),
+            ),
+          Expanded(
+              child: Text("name: " + context.watch<ProviderData>().scenarioList["context"][codeNum]["name"]),
           ),
-          const SizedBox(
-            height: 10,
+          Expanded(
+            child:
+              Text(
+                "text: " + context.watch<ProviderData>().scenarioList["context"][codeNum]["text"],
+                maxLines: 1,
+              ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

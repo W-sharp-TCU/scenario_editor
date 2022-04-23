@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 /// import files.
 import '../../Data/ProviderData.dart';
 import 'Scenario.dart';
-
+import '../GetScreenSize.dart';
 
 /// ShowScenario widget
 class ShowScenario extends StatelessWidget {
@@ -13,11 +13,11 @@ class ShowScenario extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    GetScreenSize.setSize(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width);
 
     return Container(
-      height: size.height * 0.9,
-      width: size.width * 0.4,
+      height: GetScreenSize.screenHeight() * 0.9,
+      width: GetScreenSize.screenWidth() * 0.4,
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

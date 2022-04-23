@@ -316,7 +316,13 @@ class ProviderData extends ChangeNotifier {
       type = "Question";
     } else if (scenarioList["context"][codeNum]["type"] == ScenarioJsonInterface.statusUp) {
       type = "StatusUP";
-    }name = scenarioList["context"][codeNum]["name"];
+    }
+    if (nameList.contains(scenarioList["context"][codeNum]["name"])) {
+      name = scenarioList["context"][codeNum]["name"];
+    } else {
+      name = "";
+      tmpname = scenarioList["context"][codeNum]["name"];
+    }
     text = scenarioList["context"][codeNum]["text"];
     bgImage = scenarioList["context"][codeNum]["BGImage"];
     characterImage = scenarioList["context"][codeNum]["CharacterImage"];
