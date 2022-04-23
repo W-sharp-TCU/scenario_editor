@@ -13,8 +13,6 @@ class RegisterOptionAndGoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProviderData providerData = Provider.of<ProviderData>(context);
-
     return Row(
       children: <Widget>[
         const Text("goto and option"),
@@ -25,10 +23,10 @@ class RegisterOptionAndGoto extends StatelessWidget {
           child: const Text("add"),
           onPressed: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => RegisterGotoAndOptionWidget()
-                )
+              context,
+              MaterialPageRoute(
+                builder: (context) => RegisterGotoAndOptionWidget(),
+              ),
             );
           },
         ),

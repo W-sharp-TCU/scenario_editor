@@ -12,9 +12,7 @@ class RegisterType extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> typeList = ["Speech", "Question", "StatusUP"];
-    final ProviderData providerData = Provider.of<ProviderData>(context);
-    String? value = providerData.type;
+    String? _value = context.watch<ProviderData>().type;
 
     return Container(
       child: Row(
@@ -24,19 +22,21 @@ class RegisterType extends StatelessWidget {
             width: 10,
           ),
           DropdownButton(
-            value: value,
+            value: _value,
             underline: Container(
               height: 2,
               color: Colors.black12,
             ),
-            items: typeList.map<DropdownMenuItem<String>>((String value) {
+            items: context.watch<ProviderData>().typeList.map<DropdownMenuItem<String>>((String _value) {
               return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
+                value: _value,
+                child: Text(_value),
               );
             }).toList(),
-            onChanged: (newvalue) {
-              providerData.setType(newvalue.toString());
+            onChanged: (_newvalue) {
+              if (_newvalue != null) {
+                context.read<ProviderData>().type = _newvalue.toString();
+              }
             }
           ),
         ],

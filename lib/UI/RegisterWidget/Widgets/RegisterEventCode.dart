@@ -38,7 +38,7 @@ class RegisterEventCode extends StatelessWidget {
               onChanged: (newvalue) {
                 /// set eventcode.
                 if (newvalue != "") {
-                  context.watch<ProviderData>().eventcode = int.parse(newvalue);
+                  context.read<ProviderData>().eventcode = int.parse(newvalue);
                 }
               },
             ),

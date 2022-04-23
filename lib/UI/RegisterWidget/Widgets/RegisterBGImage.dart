@@ -12,8 +12,9 @@ class RegisterBGImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProviderData providerData = Provider.of<ProviderData>(context);
-    var _textEditingController = new TextEditingController(text: providerData.BGImage);
+    var _textEditingController = new TextEditingController(
+      text: context.watch<ProviderData>().bgImage,
+    );
     _textEditingController.selection = TextSelection.fromPosition(
       TextPosition(offset: _textEditingController.text.length),
     );
@@ -30,8 +31,8 @@ class RegisterBGImage extends StatelessWidget {
               controller: _textEditingController,
               keyboardType: TextInputType.multiline,
               maxLines: 1,
-              onChanged: (newvalue) {
-                providerData.setBGImage(newvalue.toString());
+              onChanged: (_newvalue) {
+                context.read<ProviderData>().bgImage = _newvalue.toString();
               },
             ),
           ),

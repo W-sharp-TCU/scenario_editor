@@ -1,5 +1,6 @@
 /// import packages.
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 /// import files.
@@ -12,23 +13,28 @@ class RegisterGotoAndOptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProviderData providerData = Provider.of<ProviderData>(context);
+    final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Colors.grey,
-      body: Container(
-        child: Center(
+      body: Center(
+        child: Container(
+          height: size.height * 0.9,
+          width: size.width * 0.8,
           child: SingleChildScrollView(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                for (int i = 0; i < providerData.goto.length; i++) ContainerWidget(i: i),
+                for (int i = 0; i < context.watch<ProviderData>().goto.length; i++) ContainerWidget(i: i),
                 const SizedBox(
                   height: 20,
                 ),
                 ElevatedButton(
                   child: const Text("add"),
                   onPressed: () {
-                    providerData.add();
+                    context.read<ProviderData>().addgoto(-1);
+                    context.read<ProviderData>().addoption("");
+                    context.read<ProviderData>().estimategoto();
                   },
                 ),
                 const SizedBox(
@@ -57,72 +63,82 @@ class ContainerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProviderData providerData = Provider.of<ProviderData>(context);
-    String? value = providerData.tmpgotovalue;
-    var _textEditingController1 = new TextEditingController(text: providerData.goto[i].toString());
+   String? _value = null;
+    var _textEditingController1 = new TextEditingController(
+      text: context.watch<ProviderData>().goto[i].toString(),
+    );
     _textEditingController1.selection = TextSelection.fromPosition(
       TextPosition(offset: _textEditingController1.text.length),
     );
-    var _textEditingController2 = new TextEditingController(text: providerData.option[i]);
+    var _textEditingController2 = new TextEditingController(
+      text: context.watch<ProviderData>().option[i],
+    );
     _textEditingController2.selection = TextSelection.fromPosition(
       TextPosition(offset: _textEditingController2.text.length),
     );
 
     return Container(
-        child: Row(
-          children: <Widget>[
-            const Text("goto"),
-            const SizedBox(
-              width: 10,
+      child: Row(
+        children: <Widget>[
+          const Text("goto"),
+          const SizedBox(
+            width: 10,
+          ),
+          DropdownButton(
+            value: _value,
+            underline: Container(
+              height: 2,
+              color: Colors.black12,
             ),
-            DropdownButton(
-              value: value,
-              underline: Container(
-                height: 2,
-                color: Colors.black12,
-              ),
-              items: providerData.estimatedgoto.map<DropdownMenuItem<int>>((int value) {
-                return DropdownMenuItem<int>(
-                  value: value,
-                  child: Text(value.toString()),
-                );
-              }).toList(),
-              onChanged: (newvalue) {
-                
+            items: context.watch<ProviderData>().estimatedgoto.map<DropdownMenuItem<int>>((int _value) {
+              return DropdownMenuItem<int>(
+                value: _value,
+                child: Text(_value.toString()),
+              );
+            }).toList(),
+            onChanged: (_newvalue) {
+              if (_newvalue != null) {
+                context.read<ProviderData>().editgoto(int.parse(_newvalue.toString()), i);
+              }
+            },
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: TextField(
+              controller: _textEditingController1,
+              keyboardType: TextInputType.number,
+              maxLines: 1,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+              ],
+              onChanged: (_newvalue) {
+                if (_newvalue != "") {
+                  context.read<ProviderData>().editgoto(int.parse(_newvalue.toString()), i);
+                }
               },
             ),
-            const SizedBox(
-              width: 10,
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          const Text("option"),
+          const SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: TextField(
+              controller: _textEditingController2,
+              keyboardType: TextInputType.multiline,
+              maxLines: 1,
+              onChanged: (_newvalue) {
+                context.read<ProviderData>().editoption(_newvalue.toString(), i);
+              },
             ),
-            Expanded(
-              child: TextField(
-                controller: _textEditingController1,
-                keyboardType: TextInputType.multiline,
-                maxLines: 1,
-                onChanged: (newvalue) {
-                  providerData.setGoto(newvalue.toString(), i);
-                },
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            const Text("option"),
-            const SizedBox(
-              width: 10,
-            ),
-            Expanded(
-              child: TextField(
-                controller: _textEditingController2,
-                keyboardType: TextInputType.multiline,
-                maxLines: 1,
-                onChanged: (newvalue) {
-                  providerData.setOption(newvalue.toString(), i);
-                },
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,5 +1,8 @@
 /// import packages.
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 /// import files.
@@ -12,8 +15,9 @@ class RegisterText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProviderData providerData = Provider.of<ProviderData>(context);
-    var _textEditingController = new TextEditingController(text: providerData.text);
+    var _textEditingController = new TextEditingController(
+      text: context.watch<ProviderData>().text,
+    );
     _textEditingController.selection = TextSelection.fromPosition(
       TextPosition(offset: _textEditingController.text.length),
     );
@@ -29,9 +33,11 @@ class RegisterText extends StatelessWidget {
             child: TextField(
               controller: _textEditingController,
               keyboardType: TextInputType.multiline,
-              maxLines: null,
-              onChanged: (newvalue) {
-                providerData.setText(newvalue.toString());
+              minLines: 1,
+              maxLines: 3,
+              maxLength: 90,
+              onChanged: (_newvalue) {
+                context.read<ProviderData>().text = _newvalue.toString();
               },
             ),
           ),

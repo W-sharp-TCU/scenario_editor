@@ -13,7 +13,6 @@ class ShowScenario extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProviderData providerData = Provider.of<ProviderData>(context);
     final Size size = MediaQuery.of(context).size;
 
     return Container(
@@ -24,7 +23,7 @@ class ShowScenario extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             /// scenariodata's lenth scenario by for(){}.
-            for (int i = 0; i < providerData.scenarioList["context"].length; i++) Scenario(codeNum: i),
+            for (int i = 0; i < context.watch<ProviderData>().scenarioList["context"].length; i++) Scenario(codeNum: i),
           ],
         ),
       ),

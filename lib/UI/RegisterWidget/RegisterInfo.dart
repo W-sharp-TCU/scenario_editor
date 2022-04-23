@@ -23,7 +23,6 @@ class RegisterInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProviderData providerData = Provider.of<ProviderData>(context);
     final Size size = MediaQuery.of(context).size;
 
     return Container(
@@ -42,18 +41,16 @@ class RegisterInfo extends StatelessWidget {
               children: <Widget>[
                 RegisterEventCode(),
                 RegisterCode(),
-                /*
                 RegisterType(),
-                if (providerData.type == "Speech") RegisterName(),
-                if (providerData.type == "Speech") RegisterText(),
+                if (context.watch<ProviderData>().type == "Speech") RegisterName(),
+                if (context.watch<ProviderData>().type == "Speech") RegisterText(),
                 RegisterBGImage(),
                 RegisterCharacterImage(),
                 RegisterBGM(),
                 const SizedBox(
                   height: 10,
                 ),
-                RegisterOptionAndGoto(),
-                */
+                if (context.watch<ProviderData>().type == "Question") RegisterOptionAndGoto(),
               ],
             ),
           ),

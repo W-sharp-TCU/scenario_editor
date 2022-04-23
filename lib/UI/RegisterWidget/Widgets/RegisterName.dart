@@ -12,9 +12,10 @@ class RegisterName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProviderData providerData = Provider.of<ProviderData>(context);
-    String? value = providerData.name;
-    var _textEditingController = new TextEditingController(text: providerData.newname);
+    String? _value = context.watch<ProviderData>().name;
+    var _textEditingController = new TextEditingController(
+      text: context.watch<ProviderData>().tmpname,
+    );
     _textEditingController.selection = TextSelection.fromPosition(
       TextPosition(offset: _textEditingController.text.length),
     );
@@ -27,31 +28,33 @@ class RegisterName extends StatelessWidget {
             width: 10,
           ),
           DropdownButton(
-              value: value,
+              value: _value,
               underline: Container(
                 height: 2,
                 color: Colors.black12,
               ),
-              items: providerData.nameList.map<DropdownMenuItem<String>>((String value) {
+              items: context.watch<ProviderData>().nameList.map<DropdownMenuItem<String>>((String _value) {
                 return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
+                  value: _value,
+                  child: Text(_value),
                 );
               }).toList(),
-              onChanged: (newvalue) {
-                providerData.setName(newvalue.toString());
+              onChanged: (_newvalue) {
+                if (_newvalue != null) {
+                  context.read<ProviderData>().name = _newvalue.toString();
+                }
               }
           ),
           const SizedBox(
             width: 10,
           ),
-          if (providerData.name == "") Expanded(
+          if (context.watch<ProviderData>().name == "") Expanded(
             child: TextField(
               controller: _textEditingController,
               keyboardType: TextInputType.multiline,
-              maxLines: null,
-              onChanged: (newvalue) {
-                providerData.setNewName(newvalue.toString());
+              maxLines: 1,
+              onChanged: (_newvalue) {
+                context.read<ProviderData>().tmpname = _newvalue.toString();
               },
             ),
           ),

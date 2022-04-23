@@ -12,8 +12,9 @@ class RegisterCharacterImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProviderData providerData = Provider.of<ProviderData>(context);
-    var _textEditingController = new TextEditingController(text: providerData.CharacterImage);
+    var _textEditingController = new TextEditingController(
+      text: context.watch<ProviderData>().characterImage,
+    );
     _textEditingController.selection = TextSelection.fromPosition(
       TextPosition(offset: _textEditingController.text.length),
     );
@@ -30,8 +31,8 @@ class RegisterCharacterImage extends StatelessWidget {
               controller: _textEditingController,
               keyboardType: TextInputType.multiline,
               maxLines: 1,
-              onChanged: (newvalue) {
-                providerData.setCharacterImage(newvalue.toString());
+              onChanged: (_newvalue) {
+                context.read<ProviderData>().characterImage = _newvalue.toString();
               },
             ),
           ),

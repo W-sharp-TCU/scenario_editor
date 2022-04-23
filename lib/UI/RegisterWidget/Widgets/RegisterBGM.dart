@@ -12,8 +12,9 @@ class RegisterBGM extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProviderData providerData = Provider.of<ProviderData>(context);
-    var _textEditingController = new TextEditingController(text: providerData.BGM);
+    var _textEditingController = new TextEditingController(
+      text: context.watch<ProviderData>().bgm,
+    );
     _textEditingController.selection = TextSelection.fromPosition(
       TextPosition(offset: _textEditingController.text.length),
     );
@@ -30,8 +31,8 @@ class RegisterBGM extends StatelessWidget {
               controller: _textEditingController,
               keyboardType: TextInputType.multiline,
               maxLines: 1,
-              onChanged: (newvalue) {
-                providerData.setBGM(newvalue.toString());
+              onChanged: (_newvalue) {
+                context.read<ProviderData>().bgm = _newvalue.toString();
               },
             ),
           ),
