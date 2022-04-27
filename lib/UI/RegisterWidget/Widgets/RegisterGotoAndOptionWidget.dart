@@ -34,7 +34,6 @@ class RegisterGotoAndOptionWidget extends StatelessWidget {
                   onPressed: () {
                     context.read<ProviderData>().addgoto(-1);
                     context.read<ProviderData>().addoption("");
-                    context.read<ProviderData>().estimategoto();
                   },
                 ),
                 const SizedBox(
@@ -56,6 +55,7 @@ class RegisterGotoAndOptionWidget extends StatelessWidget {
 }
 
 
+
 /// RegisterGotoAndOptionWidget widget.
 class ContainerWidget extends StatelessWidget {
   ContainerWidget({Key? key, required this.i}) : super(key: key);
@@ -63,7 +63,6 @@ class ContainerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   String? _value = null;
     var _textEditingController1 = new TextEditingController(
       text: context.watch<ProviderData>().goto[i].toString(),
     );
@@ -81,27 +80,6 @@ class ContainerWidget extends StatelessWidget {
       child: Row(
         children: <Widget>[
           const Text("goto"),
-          const SizedBox(
-            width: 10,
-          ),
-          DropdownButton(
-            value: _value,
-            underline: Container(
-              height: 2,
-              color: Colors.black12,
-            ),
-            items: context.watch<ProviderData>().estimatedgoto.map<DropdownMenuItem<int>>((int _value) {
-              return DropdownMenuItem<int>(
-                value: _value,
-                child: Text(_value.toString()),
-              );
-            }).toList(),
-            onChanged: (_newvalue) {
-              if (_newvalue != null) {
-                context.read<ProviderData>().editgoto(int.parse(_newvalue.toString()), i);
-              }
-            },
-          ),
           const SizedBox(
             width: 10,
           ),
