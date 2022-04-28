@@ -382,6 +382,8 @@ class ProviderData extends ChangeNotifier {
     if (code > 0 && scenarioList["context"][code - 1]["type"] == ScenarioJsonInterface.question) {
       print("already quesiton scenario exit.");
       return;
+    } else if (scenarioList["context"].isEmpty){
+      return;
     }
     /// collect scenario data, name, type etc.
     /// register code.
