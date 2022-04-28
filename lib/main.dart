@@ -8,7 +8,7 @@ import 'UI/RegisterWidget/RegisterInfo.dart';
 import 'UI/ShowScenarioWidget/ShowScenario.dart';
 
 
-/// main method
+/// main method.
 void main() {
   runApp(
     ScenarioEditor(),
