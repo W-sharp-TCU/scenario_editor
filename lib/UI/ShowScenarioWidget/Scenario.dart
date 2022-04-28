@@ -29,21 +29,22 @@ class Scenario extends StatelessWidget {
               "code: " + context.watch<ProviderData>().scenarioList["context"][codeNum]["code"].toString(),
             ),
           ),
-          if(context.watch<ProviderData>().scenarioList["context"][codeNum]["type"] == ScenarioJsonInterface.speech)
+          if (context.watch<ProviderData>().scenarioList["context"][codeNum]["type"] == ScenarioJsonInterface.speech)
             Expanded(
               child: Text("type: Speech"),
             ),
-          if(context.watch<ProviderData>().scenarioList["context"][codeNum]["type"] == ScenarioJsonInterface.question)
+          if (context.watch<ProviderData>().scenarioList["context"][codeNum]["type"] == ScenarioJsonInterface.question)
             Expanded(
                 child: Text("type: Question"),
             ),
-          if(context.watch<ProviderData>().scenarioList["context"][codeNum]["type"] == ScenarioJsonInterface.statusUp)
+          if (context.watch<ProviderData>().scenarioList["context"][codeNum]["type"] == ScenarioJsonInterface.statusUp)
             Expanded(
                 child: Text("type: StatusUP"),
             ),
-          Expanded(
+          if (context.watch<ProviderData>().scenarioList["context"][codeNum]["type"] == ScenarioJsonInterface.speech)
+            Expanded(
               child: Text("name: " + context.watch<ProviderData>().scenarioList["context"][codeNum]["name"]),
-          ),
+            ),
           Expanded(
             child:
               Text(

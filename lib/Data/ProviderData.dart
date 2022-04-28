@@ -25,10 +25,8 @@ class ProviderData extends ChangeNotifier {
   String _bgImage = "";
   String _characterImage = "";
   String _bgm = "";
-  String _se = "";
-  String _voice_1 = "";
-  String _voice_2 = "";
-  String _voice_3 = "";
+  List<String> _selist = [];
+  List<String> _voiceList = [];
   List<int> _goto = [];
   List<String> _option = [];
   List<int> _status = [];
@@ -63,13 +61,9 @@ class ProviderData extends ChangeNotifier {
   /// getter bgm.
   String get bgm => _bgm;
   /// getter se.
-  String get se => _se;
+  List<String> get selist => _selist;
   /// getter voise_1.
-  String get voice_1 => _voice_1;
-  /// getter voise_2.
-  String get voice_2 => _voice_2;
-  /// getter voise_3.
-  String get voice_3 => _voice_3;
+  List<String> get voiceList => _voiceList;
   /// getter goto.
   List<int> get goto => _goto;
   /// getter option.
@@ -134,24 +128,14 @@ class ProviderData extends ChangeNotifier {
     _bgm = newbgm;
     notifyListeners();
   }
-  /// setter se.
-  set se (String newse) {
-    _se = newse;
+  /// setter selist.
+  set selist (List<String> newselist) {
+    _selist = newselist;
     notifyListeners();
   }
-  /// setter voice_1.
-  set voice_1 (String newvoice_1) {
-    _voice_1 = newvoice_1;
-    notifyListeners();
-  }
-  /// setter voice_2.
-  set voice_2 (String newvoice_2) {
-    _voice_2 = newvoice_2;
-    notifyListeners();
-  }
-  /// setter voice_3.
-  set voice_3 (String newvoice_3) {
-    _voice_3 = newvoice_3;
+  /// setter voiceList.
+  set voiceList (List<String> newvoicelist) {
+    _voiceList = newvoicelist;
     notifyListeners();
   }
   /// setter goto.
@@ -198,6 +182,16 @@ class ProviderData extends ChangeNotifier {
     _option.add(newoptionvalue);
     notifyListeners();
   }
+  /// add to selist.
+  void addse (String newsevalue) {
+    _selist.add(newsevalue);
+    notifyListeners();
+  }
+  /// add to voiceList.
+  void addvoice (String newvoicevalue) {
+    _voiceList.add(newvoicevalue);
+    notifyListeners();
+  }
 
 
   /// edit value on lists.
@@ -211,10 +205,25 @@ class ProviderData extends ChangeNotifier {
     _option[index] = newoptionvalue;
     notifyListeners();
   }
+  /// edit on selist.
+  void editselist (String newsevalue, int index) {
+    _selist[index] = newsevalue;
+    notifyListeners();
+  }
+  /// edit on voiceList.
+  void editvoiceList (String newvoicevalue, int index) {
+    _voiceList[index] = newvoicevalue;
+    notifyListeners();
+  }
 
 
   /// register.
   void register () {
+    /// error when register after end of scenario.
+    if (code > 0 && scenarioList["context"][code - 1]["type"] == ScenarioJsonInterface.question) {
+      print("already quesiton scenario exit.");
+      return;
+    }
     /// collect scenario data, name, type etc.
     Map<String, dynamic> _tmpmap = {};
     /// register code.
@@ -255,73 +264,60 @@ class ProviderData extends ChangeNotifier {
       _tmpmap["name"] = "";
     }
     /// register text.
-    if (type == "Speech") {
-      if (text != "") {
-        _tmpmap["text"] = text;
-      } else {
-        print("error: text");
-        return;
-      }
-    } else {
+    if (text != ""  || text != null) {
       _tmpmap["text"] = text;
+    } else {
+      print("error: text");
+      return;
     }
     /// register bgImage.
-    if (bgImage != "") {
+    if (bgImage != null) {
       _tmpmap["BGImage"] = bgImage;
     } else {
       print("error: BGImage");
       return;
     }
     /// register characterImage.
-    if (characterImage != "") {
+    if (characterImage != null) {
       _tmpmap["CharacterImage"] = characterImage;
     } else {
       print("error: CharacterImage");
       return;
     }
     /// register bgm.
-    if (bgm != "") {
+    if (bgm != null) {
       _tmpmap["BGM"] = bgm;
     } else {
       print("error: BGM");
       return;
     }
     /// register se.
-    if (se != "") {
-      _tmpmap["SE"] = se;
+    removese();
+    if (selist != null) {
+      _tmpmap["SE"] = selist;
     } else {
-      print("error: SE");
+      print("error: se");
       return;
     }
-    /// register voice_1.
-    if (voice_1 != "") {
-      _tmpmap["Voice_1"] = voice_1;
+    /// register voice.
+    removevoice();
+    if (voiceList != null) {
+      _tmpmap["Voice"] = voiceList;
     } else {
-      print("error: voise_1");
-      return;
-    }
-    /// register voice_2.
-    if (voice_2 != "") {
-      _tmpmap["Voice_2"] = voice_2;
-    } else {
-      print("error: voise_2");
-      return;
-    }
-    /// register voice_3.
-    if (voice_3 != "") {
-      _tmpmap["Voice_1"] = voice_3;
-    } else {
-      print("error: voise_3");
+      print("error: voice");
       return;
     }
     /// register goto.
     removegotoandoption();
-    if (goto.isEmpty) {
-      _tmpmap["goto"] = [code + 1];
-      _tmpmap["option"] = [];
-    } else {
+    if (type == "Question" && goto != null && option != null && goto.isNotEmpty && option.isNotEmpty) {
       _tmpmap["goto"] = goto;
       _tmpmap["option"] = option;
+    } else if (goto.isEmpty) {
+      _tmpmap["goto"] = [];
+      _tmpmap["option"] = [];
+    } else {
+      print("error: goto and option");
+      return;
     }
 
     /// insert tmpmap to scenarioList.
@@ -343,6 +339,28 @@ class ProviderData extends ChangeNotifier {
         goto.removeAt(i);
         option.removeAt(i);
         return removegotoandoption();
+      }
+    }
+  }
+
+
+  /// remove se's empty value when register
+  void removese () {
+    for (int i = 0; i< selist.length; i++) {
+      if (selist[i] == "") {
+        selist.removeAt(i);
+        return removese();
+      }
+    }
+  }
+
+
+  /// remove se's empty value when register
+  void removevoice () {
+    for (int i = 0; i< voiceList.length; i++) {
+      if (voiceList[i] == "") {
+        voiceList.removeAt(i);
+        return removevoice();
       }
     }
   }
@@ -380,10 +398,8 @@ class ProviderData extends ChangeNotifier {
     bgImage = scenarioList["context"][codeNum]["BGImage"];
     characterImage = scenarioList["context"][codeNum]["CharacterImage"];
     bgm = scenarioList["context"][codeNum]["BGM"];
-    se = scenarioList["context"][codeNum]["SE"];
-    voice_1 = scenarioList["context"][codeNum]["Voice_1"];
-    voice_2 = scenarioList["context"][codeNum]["Voice_2"];
-    voice_3 = scenarioList["context"][codeNum]["Voice_3"];
+    selist = scenarioList["context"][codeNum]["SE"];
+    voiceList = scenarioList["context"][codeNum]["Voice"];
     goto = scenarioList["context"][codeNum]["goto"];
     option = List<String>.from(scenarioList["context"][codeNum]["option"]);
     notifyListeners();
@@ -409,10 +425,8 @@ class ProviderData extends ChangeNotifier {
     bgImage = "";
     characterImage = "";
     bgm = "";
-    se = "";
-    voice_1 = "";
-    voice_2 = "";
-    voice_3 = "";
+    selist = [];
+    voiceList = [];
     goto = [];
     option = [];
   }
@@ -430,10 +444,8 @@ class ProviderData extends ChangeNotifier {
     bgImage = "";
     characterImage = "";
     bgm = "";
-    se = "";
-    voice_1 = "";
-    voice_2 = "";
-    voice_3 = "";
+    selist = [];
+    voiceList = [];
     goto = [];
     option = [];
     scenarioList =

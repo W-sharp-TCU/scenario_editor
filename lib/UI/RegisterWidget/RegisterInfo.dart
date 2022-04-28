@@ -1,6 +1,8 @@
 /// import package.
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:scenario_editor/UI/RegisterWidget/Widgets/RegisterSE.dart';
+import 'package:scenario_editor/UI/RegisterWidget/Widgets/RegisterVoice.dart';
 
 /// import files.
 import '../../Data/ProviderData.dart';
@@ -36,23 +38,34 @@ class RegisterInfo extends StatelessWidget {
           SizedBox(
             height:  GetScreenSize.screenHeight() * 0.05,
           ),
-          SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                RegisterEventCode(),
-                RegisterCode(),
-                RegisterType(),
-                if (context.watch<ProviderData>().type == "Speech") RegisterName(),
-                if (context.watch<ProviderData>().type == "Speech") RegisterText(),
-                RegisterBGImage(),
-                RegisterCharacterImage(),
-                RegisterBGM(),
-                const SizedBox(
-                  height: 10,
-                ),
-                if (context.watch<ProviderData>().type == "Question") RegisterOptionAndGoto(),
-              ],
+          Container(
+            height: GetScreenSize.screenHeight() * 0.6,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  RegisterEventCode(),
+                  RegisterCode(),
+                  RegisterType(),
+                  if (context.watch<ProviderData>().type != "StatusUP") RegisterName(),
+                  if (context.watch<ProviderData>().type != "StatusUP") RegisterText(),
+                  RegisterBGImage(),
+                  RegisterCharacterImage(),
+                  RegisterBGM(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  RegisterSE(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  RegisterVoice(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  if (context.watch<ProviderData>().type == "Question") RegisterOptionAndGoto(),
+                ],
+              ),
             ),
           ),
           SizedBox(
