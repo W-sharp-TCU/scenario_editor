@@ -155,7 +155,7 @@ class ProviderData extends ChangeNotifier {
   }
   /// setter scenarioList.
   set scenarioList (Map<String, dynamic> newscenarioList) {
-    scenarioList = newscenarioList;
+    _scenarioList = newscenarioList;
     notifyListeners();
   }
 
@@ -398,9 +398,9 @@ class ProviderData extends ChangeNotifier {
     bgImage = scenarioList["context"][codeNum]["BGImage"];
     characterImage = scenarioList["context"][codeNum]["CharacterImage"];
     bgm = scenarioList["context"][codeNum]["BGM"];
-    selist = scenarioList["context"][codeNum]["SE"];
-    voiceList = scenarioList["context"][codeNum]["Voice"];
-    goto = scenarioList["context"][codeNum]["goto"];
+    selist = List<String>.from(scenarioList["context"][codeNum]["SE"]);
+    voiceList = List<String>.from(scenarioList["context"][codeNum]["Voice"]);
+    goto = List<int>.from(scenarioList["context"][codeNum]["goto"]);
     option = List<String>.from(scenarioList["context"][codeNum]["option"]);
     notifyListeners();
   }
