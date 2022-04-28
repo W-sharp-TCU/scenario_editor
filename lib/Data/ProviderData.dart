@@ -376,6 +376,114 @@ class ProviderData extends ChangeNotifier {
   }
 
 
+  /// edit scenario.
+  void editscenario() {
+    /// error when register after end of scenario.
+    if (code > 0 && scenarioList["context"][code - 1]["type"] == ScenarioJsonInterface.question) {
+      print("already quesiton scenario exit.");
+      return;
+    }
+    /// collect scenario data, name, type etc.
+    /// register code.
+    if (code >= 0) {
+      scenarioList["context"][code]["code"] = code;
+    } else {
+      print("error: code");
+      return;
+    }
+    /// register type.
+    if (type == "Speech" || type ==  "Question" || type == "StatusUP") {
+      if (type == "Speech") {
+        scenarioList["context"][code]["type"] = ScenarioJsonInterface.speech;
+      } else if (type == "Question") {
+        scenarioList["context"][code]["type"] = ScenarioJsonInterface.question;
+      } else if (type == "StatusUP") {
+        scenarioList["context"][code]["type"] = ScenarioJsonInterface.statusUp;
+      } else {
+        print("error: type interface");
+        return;
+      }
+    } else {
+      print("error: type");
+      return;
+    }
+    /// register name.
+    if (type == "Speech") {
+      if (name == "" && tmpname != "") {
+        scenarioList["context"][code]["name"] = tmpname;
+        addnameList(tmpname);
+      } else if (name != null) {
+        scenarioList["context"][code]["name"] = name;
+      } else {
+        print("error: name");
+        return;
+      }
+    } else {
+      scenarioList["context"][code]["name"] = "";
+    }
+    /// register text.
+    if (text != ""  || text != null) {
+      scenarioList["context"][code]["text"] = text;
+    } else {
+      print("error: text");
+      return;
+    }
+    /// register bgImage.
+    if (bgImage != null) {
+      scenarioList["context"][code]["BGImage"] = bgImage;
+    } else {
+      print("error: BGImage");
+      return;
+    }
+    /// register characterImage.
+    if (characterImage != null) {
+      scenarioList["context"][code]["CharacterImage"] = characterImage;
+    } else {
+      print("error: CharacterImage");
+      return;
+    }
+    /// register bgm.
+    if (bgm != null) {
+      scenarioList["context"][code]["BGM"] = bgm;
+    } else {
+      print("error: BGM");
+      return;
+    }
+    /// register se.
+    removese();
+    if (selist != null) {
+      scenarioList["context"][code]["SE"] = selist;
+    } else {
+      print("error: se");
+      return;
+    }
+    /// register voice.
+    removevoice();
+    if (voiceList != null) {
+      scenarioList["context"][code]["Voice"] = voiceList;
+    } else {
+      print("error: voice");
+      return;
+    }
+    /// register goto.
+    removegotoandoption();
+    if (type == "Question" && goto != null && option != null && goto.isNotEmpty && option.isNotEmpty) {
+      scenarioList["context"][code]["goto"] = goto;
+      scenarioList["context"][code]["option"] = option;
+    } else if (goto.isEmpty) {
+      scenarioList["context"][code]["goto"] = [];
+      scenarioList["context"][code]["option"] = [];
+    } else {
+      print("error: goto and option");
+      return;
+    }
+
+    print(scenarioList);
+    clear();
+    notifyListeners();
+  }
+
+
   /// call it to restore scenariolist.
   void getScenario(codeNum) {
     clear();

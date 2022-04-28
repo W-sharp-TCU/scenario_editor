@@ -1,4 +1,5 @@
 /// import packages.
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,15 +13,22 @@ class UnderButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProviderData providerData = Provider.of<ProviderData>(context);
-
     return Container(
       child: Row(
         children: <Widget>[
           ElevatedButton(
             child: const Text("Register"),
+            onPressed: () {
+              context.read<ProviderData>().register();
+            }
+          ),
+          const SizedBox(
+            width: 50,
+          ),
+          ElevatedButton(
+            child: const Text("Edit"),
             onPressed: (){
-              providerData.register();
+              context.read<ProviderData>().editscenario();
             },
           ),
           const SizedBox(
@@ -29,7 +37,7 @@ class UnderButtons extends StatelessWidget {
           ElevatedButton(
             child: const Text("Clear"),
             onPressed: (){
-             providerData.clear();
+              context.read<ProviderData>().clear();
             },
           ),
         ],
