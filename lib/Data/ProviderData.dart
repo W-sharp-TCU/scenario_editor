@@ -12,6 +12,7 @@ import 'package:scenario_editor/UI/ShowScenarioWidget/ShowScenario.dart';
 import 'package:scenario_editor/Data/json.dart';
 import 'package:scenario_editor/Data/interface_ScenarioJson.dart';
 
+
 class ProviderData extends ChangeNotifier {
   /// variable
   int _eventcode = -1;
@@ -20,7 +21,7 @@ class ProviderData extends ChangeNotifier {
   List<String> _typeList = ["Speech", "Question", "StatusUP"];
   String? _name = null;
   String _tmpname = ""; /// tmpname's textfield.
-  List<String> _nameList = ["", "ののの", "def1", "def2", "def3"];  /// change list of name on dropdownbutton.
+  List<String> _nameList = ["", "ののの", "name1", "name2", "name3"];  /// change list of name on dropdownbutton.
   String _text = "";
   String _bgImage = "";
   String _characterImage = "";
@@ -610,7 +611,7 @@ class ProviderData extends ChangeNotifier {
       final anchor = html.AnchorElement(
           href: "data:application/json;charset=utf-8," + jsontomap.getJson()
       );
-      anchor.download = "sampledatafile.json";
+      anchor.download = "$eventcode.json";
       anchor.click();
     } else {
       final dynamic data = Uint8List.fromList(jsontomap.getJson().codeUnits);
