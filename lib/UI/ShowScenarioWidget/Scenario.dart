@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 /// import files.
 import '/Data/ProviderData.dart';
-import 'package:scenario_editor/Data/interface_ScenarioJson.dart';
+import 'package:scenario_editor/Data/Interface/interface_ScenarioJson.dart';
 import '../GetScreenSize.dart';
 
 /// Scenario widget

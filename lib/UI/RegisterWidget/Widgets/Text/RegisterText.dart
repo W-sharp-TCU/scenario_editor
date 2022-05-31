@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 /// import files.
-import '../../../Data/ProviderData.dart';
+import '../../../../Data/ProviderData.dart';
 
 
 /// RegisterText widget.

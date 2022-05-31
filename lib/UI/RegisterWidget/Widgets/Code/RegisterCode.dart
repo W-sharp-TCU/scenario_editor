@@ -1,19 +1,20 @@
 /// import packages.
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 /// import files.
-import '../../../Data/ProviderData.dart';
+import '../../../../Data/ProviderData.dart';
 
 
-/// RegisterBGM widget.
-class RegisterBGM extends StatelessWidget {
-  const RegisterBGM({Key? key}) : super(key: key);
+/// RegisterCode widget.
+class RegisterCode extends StatelessWidget {
+  const RegisterCode({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var _textEditingController = new TextEditingController(
-      text: context.watch<ProviderData>().bgm,
+      text: context.watch<ProviderData>().code.toString(),
     );
     _textEditingController.selection = TextSelection.fromPosition(
       TextPosition(offset: _textEditingController.text.length),
@@ -22,17 +23,22 @@ class RegisterBGM extends StatelessWidget {
     return Container(
       child: Row(
         children: <Widget>[
-          const Text("BGM"),
+          const Text("code"),
           const SizedBox(
             width: 10,
           ),
           Expanded(
             child: TextField(
               controller: _textEditingController,
-              keyboardType: TextInputType.multiline,
+              keyboardType: TextInputType.number,
               maxLines: 1,
-              onChanged: (_newvalue) {
-                context.read<ProviderData>().bgm = _newvalue.toString();
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+              ],
+              onChanged: (newvalue) {
+                if (newvalue != "") {
+                  context.read<ProviderData>().code = int.parse(newvalue);
+                }
               },
             ),
           ),

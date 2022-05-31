@@ -5,12 +5,12 @@ import 'dart:typed_data';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:scenario_editor/UI/RegisterWidget/Widgets/RegisterBGImage.dart';
+import 'package:scenario_editor/UI/RegisterWidget/Widgets/BGImage/RegisterBGImage.dart';
 import 'dart:convert';
 
 import 'package:scenario_editor/UI/ShowScenarioWidget/ShowScenario.dart';
 import 'package:scenario_editor/Data/json.dart';
-import 'package:scenario_editor/Data/interface_ScenarioJson.dart';
+import 'package:scenario_editor/Data/Interface/interface_ScenarioJson.dart';
 
 
 class ProviderData extends ChangeNotifier {
@@ -21,7 +21,7 @@ class ProviderData extends ChangeNotifier {
   List<String> _typeList = ["Speech", "Question", "StatusUP"];
   String? _name = null;
   String _tmpname = ""; /// tmpname's textfield.
-  List<String> _nameList = ["", "ののの", "name1", "name2", "name3"];  /// change list of name on dropdownbutton.
+  List<String> _nameList = ["<Player>", "ののの", "彩菜", "榊", "???", ""];  /// change list of name on dropdownbutton.
   String _text = "";
   String _bgImage = "";
   String _characterImage = "";
@@ -81,12 +81,12 @@ class ProviderData extends ChangeNotifier {
   set eventcode (int neweventcode) {
     _eventcode = neweventcode;
     setscenarioList_eventcode(neweventcode);
-    notifyListeners();
+    // notifyListeners();
   }
   /// setter code.
   set code (int newcode) {
     _code = newcode;
-    notifyListeners();
+    // notifyListeners();
   }
   /// setter type.
   set type (String? newtype) {
@@ -101,63 +101,62 @@ class ProviderData extends ChangeNotifier {
   /// setter tmpname.
   set tmpname (String newtmpname) {
     _tmpname = newtmpname;
-    print(_tmpname);
-    notifyListeners();
+    // notifyListeners();
   }
   /// setter nameList.
   set nameList (List<String> newnameList) {
     _nameList = newnameList;
-    notifyListeners();
+    // notifyListeners();
   }
   /// setter text.
   set text (String newtext) {
     _text = newtext;
-    notifyListeners();
+    // notifyListeners();
   }
   /// setter BGimage.
   set bgImage (String newbgImage) {
     _bgImage = newbgImage;
-    notifyListeners();
+    // notifyListeners();
   }
   /// setter CharacterImage.
   set characterImage (String newcharacterImage) {
     _characterImage = newcharacterImage;
-    notifyListeners();
+    // notifyListeners();
   }
   /// setter bgm.
   set bgm (String newbgm) {
     _bgm = newbgm;
-    notifyListeners();
+    // notifyListeners();
   }
   /// setter selist.
   set selist (List<String> newselist) {
     _selist = newselist;
-    notifyListeners();
+    // notifyListeners();
   }
   /// setter voiceList.
   set voiceList (List<String> newvoicelist) {
     _voiceList = newvoicelist;
-    notifyListeners();
+    // notifyListeners();
   }
   /// setter goto.
   set goto (List<int> newgoto) {
     _goto = newgoto;
-    notifyListeners();
+    // notifyListeners();
   }
   /// setter option.
   set option (List<String> newoption) {
     _option = newoption;
-    notifyListeners();
+    // notifyListeners();
   }
   /// setter status.
   set status (List<int> newstatus) {
     _status = newstatus;
-    notifyListeners();
+    // notifyListeners();
   }
   /// setter scenarioList.
   set scenarioList (Map<String, dynamic> newscenarioList) {
     _scenarioList = newscenarioList;
-    notifyListeners();
+    // notifyListeners();
   }
 
 
@@ -165,6 +164,7 @@ class ProviderData extends ChangeNotifier {
   /// set scenarioList.
   void setscenarioList_eventcode (int neweventcode) {
     scenarioList["eventcode"] = neweventcode;
+    // notifyListeners();
   }
 
 
@@ -172,6 +172,7 @@ class ProviderData extends ChangeNotifier {
   /// add to nameList.
   void addnameList (String newnamevalue) {
     _nameList.add(newnamevalue);
+    // notifyListeners();
   }
   /// add to goto.
   void addgoto (int newgotovalue) {
@@ -199,22 +200,22 @@ class ProviderData extends ChangeNotifier {
   /// edit on goto.
   void editgoto (int newgotovalue, int index) {
     _goto[index] = newgotovalue;
-    notifyListeners();
+    // notifyListeners();
   }
   /// edit on option.
   void editoption (String newoptionvalue, int index) {
     _option[index] = newoptionvalue;
-    notifyListeners();
+    // notifyListeners();
   }
   /// edit on selist.
   void editselist (String newsevalue, int index) {
     _selist[index] = newsevalue;
-    notifyListeners();
+    // notifyListeners();
   }
   /// edit on voiceList.
   void editvoiceList (String newvoicevalue, int index) {
     _voiceList[index] = newvoicevalue;
-    notifyListeners();
+    // notifyListeners();
   }
 
 

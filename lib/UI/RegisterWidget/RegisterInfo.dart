@@ -1,22 +1,22 @@
 /// import package.
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:scenario_editor/UI/RegisterWidget/Widgets/RegisterSE.dart';
-import 'package:scenario_editor/UI/RegisterWidget/Widgets/RegisterVoice.dart';
+import 'package:scenario_editor/UI/RegisterWidget/Widgets/SE/RegisterSE.dart';
+import 'package:scenario_editor/UI/RegisterWidget/Widgets/Voice/RegisterVoice.dart';
 
 /// import files.
 import '../../Data/ProviderData.dart';
-import 'Widgets/UpperButtons.dart';
-import 'Widgets/RegisterEventCode.dart';
-import 'Widgets/RegisterCode.dart';
-import 'Widgets/RegisterType.dart';
-import 'Widgets/RegisterName.dart';
-import 'Widgets/RegisterText.dart';
-import 'Widgets/RegisterBGImage.dart';
-import 'Widgets/RegisterCharacterImage.dart';
-import 'Widgets/RegisterBGM.dart';
-import 'Widgets/RegisterOptionAndGoto.dart';
-import 'Widgets/UnderButtons.dart';
+import 'Widgets/Button/UpperButtons.dart';
+import 'Widgets/EventCode/RegisterEventCode.dart';
+import 'Widgets/Code/RegisterCode.dart';
+import 'Widgets/Type/RegisterType.dart';
+import 'Widgets/Name/RegisterName.dart';
+import 'Widgets/Text/RegisterText.dart';
+import 'Widgets/BGImage/RegisterBGImage.dart';
+import 'Widgets/CharacterImage/RegisterCharacterImage.dart';
+import 'Widgets/BGM/RegisterBGM.dart';
+import 'Widgets/GotoAndOption/RegisterGotoAndOption.dart';
+import 'Widgets/Button/UnderButtons.dart';
 import '../GetScreenSize.dart';
 
 
@@ -63,7 +63,7 @@ class RegisterInfo extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  if (context.watch<ProviderData>().type == "Question") RegisterOptionAndGoto(),
+                  if (context.watch<ProviderData>().type == "Question") RegisterGotoAndOption(),
                 ],
               ),
             ),

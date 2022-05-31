@@ -4,12 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 /// import files.
-import '../../../Data/ProviderData.dart';
+import '../../../../Data/ProviderData.dart';
 
 
 /// RegisterGotoAndOptionWidget widget.
-class RegisterGotoAndOptionWidget extends StatelessWidget {
-  const RegisterGotoAndOptionWidget({Key? key}) : super(key: key);
+class RegisterGotoAndOptionScreen extends StatelessWidget {
+  const RegisterGotoAndOptionScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class RegisterGotoAndOptionWidget extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                for (int i = 0; i < context.watch<ProviderData>().goto.length; i++) ContainerWidget(i: i),
+                for (int i = 0; i < context.watch<ProviderData>().goto.length; i++) GotoAndOptionContainerWidget(i: i),
                 const SizedBox(
                   height: 20,
                 ),
@@ -56,9 +56,9 @@ class RegisterGotoAndOptionWidget extends StatelessWidget {
 
 
 
-/// RegisterGotoAndOptionWidget widget.
-class ContainerWidget extends StatelessWidget {
-  ContainerWidget({Key? key, required this.i}) : super(key: key);
+/// RegisterGotoAndOptionScreen widget.
+class GotoAndOptionContainerWidget extends StatelessWidget {
+  GotoAndOptionContainerWidget({Key? key, required this.i}) : super(key: key);
   int i;
 
   @override

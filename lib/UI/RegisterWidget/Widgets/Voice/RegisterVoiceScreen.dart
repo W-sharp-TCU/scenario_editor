@@ -2,15 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:scenario_editor/UI/RegisterWidget/Widgets/RegisterSE.dart';
 
 /// import files.
-import '../../../Data/ProviderData.dart';
+import '../../../../Data/ProviderData.dart';
 
 
-/// RegisterSEWidget widget.
-class RegisterSEWidget extends StatelessWidget {
-  const RegisterSEWidget({Key? key}) : super(key: key);
+/// RegisterWiVoiceScreen widget.
+class RegisterVoiceScreen extends StatelessWidget {
+  const RegisterVoiceScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +25,14 @@ class RegisterSEWidget extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                for (int i = 0; i < context.watch<ProviderData>().selist.length; i++) ContainerWidget(index: i),
+                for (int i = 0; i < context.watch<ProviderData>().voiceList.length; i++) VoiceContainerWidget(index: i),
                 const SizedBox(
                   height: 20,
                 ),
                 ElevatedButton(
                   child: const Text("add"),
                   onPressed: () {
-                    context.read<ProviderData>().addse("");
+                    context.read<ProviderData>().addvoice("");
                   },
                 ),
                 const SizedBox(
@@ -56,15 +55,15 @@ class RegisterSEWidget extends StatelessWidget {
 
 
 
-/// RegisterSEWidget widget.
-class ContainerWidget extends StatelessWidget {
-  ContainerWidget({Key? key, required this.index}) : super(key: key);
+/// RegisterVoiceScreen widget.
+class VoiceContainerWidget extends StatelessWidget {
+  VoiceContainerWidget({Key? key, required this.index}) : super(key: key);
   int index;
 
   @override
   Widget build(BuildContext context) {
     var _textEditingController = new TextEditingController(
-      text: context.watch<ProviderData>().selist[index],
+      text: context.watch<ProviderData>().voiceList[index],
     );
     _textEditingController.selection = TextSelection.fromPosition(
       TextPosition(offset: _textEditingController.text.length),
@@ -73,7 +72,7 @@ class ContainerWidget extends StatelessWidget {
     return Container(
       child: Row(
         children: <Widget>[
-          Text("se " + index.toString()),
+          Text("voice " + index.toString()),
           const SizedBox(
             width: 10,
           ),
@@ -83,7 +82,7 @@ class ContainerWidget extends StatelessWidget {
               keyboardType: TextInputType.multiline,
               maxLines: 1,
               onChanged: (_newvalue) {
-                context.read<ProviderData>().editselist(_newvalue, index);
+                context.read<ProviderData>().editvoiceList(_newvalue, index);
               },
             ),
           ),

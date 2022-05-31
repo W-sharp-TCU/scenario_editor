@@ -1,20 +1,19 @@
 /// import packages.
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 /// import files.
-import '../../../Data/ProviderData.dart';
+import '../../../../Data/ProviderData.dart';
 
 
-/// RegisterEventCode widget.
-class RegisterEventCode extends StatelessWidget {
-  const RegisterEventCode({Key? key}) : super(key: key);
+/// RegisterBGImage widget.
+class RegisterBGImage extends StatelessWidget {
+  const RegisterBGImage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var _textEditingController = new TextEditingController(
-      text: context.watch<ProviderData>().eventcode.toString(),
+      text: context.watch<ProviderData>().bgImage,
     );
     _textEditingController.selection = TextSelection.fromPosition(
       TextPosition(offset: _textEditingController.text.length),
@@ -23,23 +22,17 @@ class RegisterEventCode extends StatelessWidget {
     return Container(
       child: Row(
         children: <Widget>[
-          const Text("eventcode"),
+          const Text("BGImage"),
           const SizedBox(
             width: 10,
           ),
           Expanded(
             child: TextField(
               controller: _textEditingController,
-              keyboardType: TextInputType.number,
+              keyboardType: TextInputType.multiline,
               maxLines: 1,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp('[0-9]')),
-              ],
-              onChanged: (newvalue) {
-                /// set eventcode.
-                if (newvalue != "") {
-                  context.read<ProviderData>().eventcode = int.parse(newvalue);
-                }
+              onChanged: (_newvalue) {
+                context.read<ProviderData>().bgImage = _newvalue.toString();
               },
             ),
           ),
