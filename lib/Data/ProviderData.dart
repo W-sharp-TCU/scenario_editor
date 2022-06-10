@@ -23,7 +23,7 @@ class ProviderData extends ChangeNotifier {
   String _tmpname = ""; /// tmpname's textfield.
   List<String> _nameList = ["<Player>", "ののの", "彩菜", "榊", "???", ""];  /// change list of name on dropdownbutton.
   String _text = "";
-  String _bgImage = "";
+  String _bgImage = "assets/drawable/";
   String _characterImage = "";
   String _bgm = "";
   List<String> _selist = [];
@@ -534,7 +534,7 @@ class ProviderData extends ChangeNotifier {
     name = null;
     tmpname = "";
     text = "";
-    bgImage = "";
+    bgImage = "assets/drawable/";
     characterImage = "";
     bgm = "";
     selist = [];
@@ -553,7 +553,7 @@ class ProviderData extends ChangeNotifier {
     tmpname = "";
     nameList = ["", "ののの", "def1", "def2", "def3"];
     text = "";
-    bgImage = "";
+    bgImage = "assets/drawable/";
     characterImage = "";
     bgm = "";
     selist = [];
